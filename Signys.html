@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Sign Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #sign {
+            position: absolute;
+            padding: 10px 20px;
+            background-color: yellow;
+            border: 2px solid black;
+            cursor: move;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Create Your Sign</h1>
+    <input type="text" id="signText" placeholder="Enter your sign text here">
+    <button onclick="createSign()">Create Sign</button>
+
+    <div id="sign"></div>
+
+    <script>
+        function createSign() {
+            const signText = document.getElementById('signText').value;
+            const sign = document.getElementById('sign');
+            sign.textContent = signText;
+            sign.style.display = 'block';
+            sign.style.left = '50px'; // Default position
+            sign.style.top = '50px';  // Default position
+        }
+
+        // Drag and Drop functionality
+        const sign = document.getElementById('sign');
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        sign.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            offsetX = e.clientX - parseInt(sign.style.left);
+            offsetY = e.clientY - parseInt(sign.style.top);
+            sign.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                sign.style.left = (e.clientX - offsetX) + 'px';
+                sign.style.top = (e.clientY - offsetY) + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            sign.style.cursor = 'move';
+        });
+    </script>
+
+</body>
+</html>
